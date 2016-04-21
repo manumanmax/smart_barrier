@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <wiringPi.h>
 
-void raise(){
+void raiseBarrier(){
 	printf("raising the barrier\n");
 }
 
