@@ -1,26 +1,27 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <wiringPi.h>
 #include "barrier.h"
 
+void stopBarrier(){
+	pwmWrite(PIN,0);
+	printf("Barrier stopped !\n");
+}
 
-int main(int argc, char* argv[]){
-	int periode_time;
+int main(){
 	Barrier b;
-
-	if(argc < 2)
-		periode_time = 75;
-	else{
-		sscanf(argv[1], "%d", &periode_time);
-		printf("periode : %d\n", periode_time);
-	}
- 
+	int i; 
 	if(wiringPiSetup() == -1)
 		exit(1);
 
-	setupBarrier(periode_time);
-
-	b.position = DOWN;
-	/*moveBarrier(&b);*/
+	setupBarrier(&b);
+	for(i = 0; i < 3; i++){
+		sleep(1);
+		moveBarrier(&b);
+	}
+	sleep(1);
+	stopBarrier();
+	
 	return 0;
 }

@@ -11,7 +11,7 @@ typedef struct Barrier{
 	int position;	
 } Barrier;
 
-void setupBarrier(int periode);
+void setupBarrier(Barrier* b);
 void moveBarrier(Barrier* b);
 
 #endif
