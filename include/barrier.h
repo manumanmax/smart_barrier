@@ -1,18 +1,17 @@
 #ifndef BARRIER_H
 #define BARRIER_H
 
-typedef enum Position Position;
-enum Position
-{
-	UP,DOWN
-};
+#define UP 1
+#define DOWN 0
+#define RAISED 96 
+#define SET 55
+#define PIN 1
 
-typedef Struct Barrier{
-	int startAngle;
-	Position pos;	
+typedef struct Barrier{
+	int position;	
 } Barrier;
 
-void raiseBarrier();
-void setupBarrier();
+void setupBarrier(int periode);
+void moveBarrier(Barrier* b);
 
 #endif
