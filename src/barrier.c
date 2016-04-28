@@ -4,10 +4,10 @@
 #include "barrier.h"
 
 void setupBarrier(Barrier* b){
-	pinMode(1, PWM_OUTPUT); /* corresponds to pin 12 */ 
+	pinMode(1, PWM_OUTPUT); 	/* corresponds to pin 12 */ 
 	pwmSetMode(PWM_MODE_MS);
 	pwmSetClock(384);   
-	pwmSetRange(512); /* adaptation of the clock frequency to the motor frequency */
+	pwmSetRange(512); 		   /* adaptation of the clock frequency to the motor frequency */
 	b->position = DOWN;
 	pwmWrite(PIN, SET);
 	

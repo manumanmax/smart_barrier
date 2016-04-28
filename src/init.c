@@ -1,3 +1,6 @@
+#include <wiringPi.h>
+#include "led.h"
+#include "sensor.h"
 #include "init.h"
 
 void init_setup(){

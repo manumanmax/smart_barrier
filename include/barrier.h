@@ -9,10 +9,9 @@
 
 typedef struct Barrier{
 	int position;	
-} Barrier;
+}Barrier;
 
 void stopBarrier();
-
 void setupBarrier(Barrier* b);
 void moveBarrier(Barrier* b);
 
