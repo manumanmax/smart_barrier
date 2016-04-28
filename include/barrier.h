@@ -7,12 +7,9 @@
 #define SET 50
 #define PIN 1
 
-typedef struct Barrier{
-	int position;	
-}Barrier;
-
 void stopBarrier();
-void setupBarrier(Barrier* b);
-void moveBarrier(Barrier* b);
+void setupBarrier();
+void moveBarrierDown();
+void moveBarrierUp();
 
 #endif

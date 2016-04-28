@@ -3,12 +3,22 @@
 
 #include <stdbool.h>
 
+/*
+* The module contains the definitions of functions
+* and structures to use simple binary input/outputs
+* The module is supposed to be used on Raspberry, then
+* the type of pins is an 8 bit integer.
+*/ 
+
+
+//Type of read input functions
 typedef void (*read_in)(void* in);
 
+//Type of write output functions
 typedef void (*write_out)(void* out);
 
-typedef unsigned char pin_t;           
-typedef unsigned char binary_io_id_t;  
+typedef unsigned char pin_t;           //Type of io pins
+typedef unsigned char binary_io_id_t;  //Type of the binary io identifier
 
 /* Definition of binary io structure */
 struct binary_io_s

@@ -2,35 +2,33 @@
 #include <stdlib.h>
 #include <wiringPi.h>
 #include "barrier.h"
+#include <time.h>
 
-void setupBarrier(Barrier* b){
-	pinMode(1, PWM_OUTPUT); 	/* corresponds to pin 12 */ 
+void setupBarrier(){
+	pinMode(1, PWM_OUTPUT); /* corresponds to pin 12 */ 
 	pwmSetMode(PWM_MODE_MS);
 	pwmSetClock(384);   
-	pwmSetRange(512); 		   /* adaptation of the clock frequency to the motor frequency */
-	b->position = DOWN;
-	pwmWrite(PIN, SET);
+	pwmSetRange(512); /* adaptation of the clock frequency to the motor frequency */
+	//pwmWrite(PIN, SET);
 	
 }
-
-void moveBarrier(Barrier* b){
-	printf("position : %d\n", b->position);	
-	if(b->position == UP){
-		printf("barrier up, I set it down with value %d\n",SET);
-		b->position = DOWN;
-		pwmWrite(PIN, SET);
-	}
-	else{
-		printf("barrier down, I raise it with value %d\n",RAISED);
-		b->position = UP;
-		pwmWrite(PIN, RAISED);
-	}
-}
-
 void stopBarrier()	
 {
 	pwmWrite(PIN,0);
-	printf("barrier stop/n");
-	
+	printf("barrier stop\n");	
+}
+
+void moveBarrierUp(){
+        printf("Barrier is down, I raise it with value %d\n", RAISED);
+        pwmWrite(PIN, RAISED);
+	sleep(1);
+		stopBarrier();
+}
+
+void moveBarrierDown(){
+        printf("barrier up, I set it down with value %d\n", SET);
+        pwmWrite(PIN, SET);
+	sleep(1);
+		stopBarrier();
 }
 

@@ -8,6 +8,6 @@ void all_led_off();
 void red_led_on();
 void green_led_on();
 void yellow_led_on();
-void blink_yellow_led();
+//void blink_yellow_led();
 
 #endif

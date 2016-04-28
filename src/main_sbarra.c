@@ -13,11 +13,12 @@ int main(){
 		exit(1);
 
 	setupBarrier(&b);
-	
+	while(1){
   	if(rfid_cycle()){
   		moveBarrier(&b);
+		delay(200);
   	}
-	
+	}
         stopBarrier();
   	return 0;
 }

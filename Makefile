@@ -4,10 +4,11 @@ LDFLAGS=-lwiringPi -lphidget21
 EXEC=main
 
 all: $(EXEC)
-main: build/main.o build/barrier.o build/rfid.o build/led.o build/sensor.o build/init.o build/mooremachine.o build/park_manager.o
+
+driver: build/driver.o build/barrier.o build/rfid.o build/led.o build/sensor.o build/init.o build/mooremachine.o build/park_manager.o
 	gcc -o $@ $^ $(LDFLAGS) -Iinclude 
 
-build/main.o: src/main.c 
+build/driver.o: src/driver.c 
 	gcc -o $@ -c $^ $(CLFLAGS) $(LDFLAGS)
 
 build/barrier.o: src/barrier.c

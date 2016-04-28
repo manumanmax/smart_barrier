@@ -2,6 +2,7 @@
 #include "led.h"
 #include "sensor.h"
 #include "init.h"
+#include "barrier.h"
 
 void init_setup(){
 	wiringPiSetup();
@@ -9,4 +10,5 @@ void init_setup(){
 	pinMode(GREEN_LED, OUTPUT);
 	pinMode(TRACK_SENS1, INPUT);
 	pinMode(TRACK_SENS2, INPUT);
+	setupBarrier();
 }

@@ -3,7 +3,7 @@
 
 void all_led_off(){
 	digitalWrite(RED_LED, LOW);
-        digitalWrite(GREEN_LED, LOW);
+    digitalWrite(GREEN_LED, LOW);
 }
 
 void red_led_on(){
@@ -22,6 +22,7 @@ void yellow_led_on(){
 	digitalWrite(GREEN_LED, HIGH);
 }
 
+/*
 void blink_yellow_led(){
 	int i;
 	for(i=0;i<4;i++){
@@ -31,6 +32,4 @@ void blink_yellow_led(){
 		delay(300);
 	}
 }
-
-
-
+*/

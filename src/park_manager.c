@@ -8,27 +8,41 @@
 #include "io.h"
 #include "mooremachine.h"
 #include "park_manager.h"
-
+#include "led.h"
+#include "barrier.h"
+#include "sensor.h"
+#include <time.h>
 
 static char stdin_buffer[256];
 static state_t states[NUM_OF_STATES];
 static input_t inputs[NUM_OF_INPUTS];
 static output_t outputs[NUM_OF_OUTPUTS];
 
+/*
+* Functions to initialize the machine
+*/
 static void init_machine(moore_t* m);
 static void init_input(input_id_t id, pin_t pin, read_in read);
 static void init_output(output_id_t id, pin_t pin, write_out write);
 static void init_state(state_id_t id, next_state_fun_t next, get_output_fun_t out);
 
+/*
+* State transition functions related to the states of the coffee machine
+*/
 static void* standby_next_state(input_t* inputs, void* states, void* par);
 static void* errorcard_next_state(input_t* inputs, void* states, void* par);
 static void* validcard_next_state(input_t* inputs, void* states, void* par);
 static void* carunderbarrier_next_state(input_t* inputs, void* states, void* par);
+void* end_next_state(input_t* inputs, void* m_states, void* par);
 
+/*
+* Output functions relates to the states of the coffee machine
+*/
 static void standby_output(output_t* outputs, void* par);
 static void errorcard_output(output_t* outputs, void* par);
 static void validcard_output(output_t* outputs, void* par);
 static void carunderbarrier_output(output_t* outputs, void* par);
+void end_output(output_t* outputs, void* par);
 
 void initialize(moore_t* m)
 {
@@ -49,6 +63,7 @@ void initialize(moore_t* m)
   init_state(ERROR_CARD, errorcard_next_state, errorcard_output);
   init_state(VALID_CARD, validcard_next_state, validcard_output);
   init_state(CAR_UNDER_BARRIER, carunderbarrier_next_state, carunderbarrier_output);
+  init_state(END, end_next_state, end_output);
   
   init_machine(m);
 }
@@ -147,7 +162,7 @@ void* validcard_next_state(input_t* inputs, void* m_states, void* par)
     
     if(!val_b_sens)
         return &stvec[STANDBY];
-    if(val_a_sens)
+    if(val_b_sens && val_a_sens)
         return &stvec[CAR_UNDER_BARRIER];
     
     return &stvec[VALID_CARD];
@@ -165,9 +180,17 @@ void* carunderbarrier_next_state(input_t* inputs, void* m_states, void* par)
     val_a_sens = inputs[IN_AFTER_SENSOR].value;
     
     if(!val_a_sens)
-        return &stvec[STANDBY];
+        return &stvec[END];
     
     return &stvec[CAR_UNDER_BARRIER];
+}
+
+void* end_next_state(input_t* inputs, void* m_states, void* par)
+{
+	assert(inputs != NULL && m_states !=NULL);
+	state_t* stvec = (state_t*)m_states;
+    sleep(1);
+    return &stvec[STANDBY];
 }
 
 /*OUTPUT FUNCTIONS*/
@@ -178,6 +201,8 @@ void standby_output(output_t* outputs, void* par)
     outputs[OUT_RED_LED].value = 1;
     outputs[OUT_GREEN_LED].value = 1;
     outputs[OUT_BARRIER].value = 0;
+    
+    yellow_led_on();
 }
 
 void errorcard_output(output_t* outputs, void* par)
@@ -187,15 +212,21 @@ void errorcard_output(output_t* outputs, void* par)
     outputs[OUT_RED_LED].value = 1;
     outputs[OUT_GREEN_LED].value = 0;
     outputs[OUT_BARRIER].value = 0;
+    
+    red_led_on();
 }
 
 void validcard_output(output_t* outputs, void* par)
 {
-    system("clear");
+    
+	system("clear");
     printf("State: Valid Card\n");
     outputs[OUT_RED_LED].value = 0;
     outputs[OUT_GREEN_LED].value = 1;
     outputs[OUT_BARRIER].value = 1;
+    
+    green_led_on();
+	moveBarrierUp();
 }
 
 void carunderbarrier_output(output_t* outputs, void* par)
@@ -205,8 +236,21 @@ void carunderbarrier_output(output_t* outputs, void* par)
     outputs[OUT_RED_LED].value = 1;
     outputs[OUT_GREEN_LED].value = 1;
     outputs[OUT_BARRIER].value = 1;
+    
+    yellow_led_on();
 }
 
+void end_output(output_t* outputs, void* par)
+{
+    system("clear");
+    printf("\nEnding\n");
+    outputs[OUT_RED_LED].value = 1;
+    outputs[OUT_GREEN_LED].value = 1;
+    outputs[OUT_BARRIER].value = 0;
+    
+    yellow_led_on();
+	moveBarrierDown();
+}
 
 void read_input(void* inp)
 {
@@ -214,7 +258,7 @@ void read_input(void* inp)
 	{
 		input_t* in = (input_t*)inp;
         in->value = 0;
-  	if((in->id == IN_BEFORE_SENSOR && strchr(stdin_buffer,'a'))
+  	if((in->id == IN_BEFORE_SENSOR && !tracking(IN_BEFORE_SENSOR_PIN))
   		|| (in->id == IN_RFID && strchr(stdin_buffer,'s'))
         || (in->id == IN_AFTER_SENSOR && strchr(stdin_buffer,'d')))
   	 	in->value = 1;
