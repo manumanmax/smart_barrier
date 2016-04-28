@@ -27,11 +27,11 @@ int rfid_cycle()
     
     printf("Init...\n");
     
-    while (val == -1){
+    //while (val == -1){
     	CPhidgetRFID_setAntennaOn(rfid, 1);
     	CPhidgetRFID_setLEDOn(rfid, 1);
-    }
- 
+    //}
+    delay(100);
     CPhidgetRFID_setLEDOn(rfid, 0);
     CPhidget_close((CPhidgetHandle)rfid);
     CPhidget_delete((CPhidgetHandle)rfid); 

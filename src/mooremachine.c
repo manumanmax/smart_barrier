@@ -23,7 +23,7 @@ void run(moore_t* m, cycle_fun begin_run, void* p)
   
   while(true) {
   	time = get_time();
-    begin_run(p);
+    //begin_run(p);
     read_inputs(m);
     update_state(m);
     write_outputs(m);

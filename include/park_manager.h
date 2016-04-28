@@ -11,12 +11,12 @@
 #define TIMELIMIT                       1500000
 
 #define NUM_OF_STATES                   5
-#define NUM_OF_INPUTS                   3
+#define NUM_OF_INPUTS                   2
 #define NUM_OF_OUTPUTS                  3
 
 /* I/O Pin Definition  */
 #define IN_BEFORE_SENSOR_PIN            4
-#define IN_RFID_PIN			10
+// #define IN_RFID_PIN			10
 #define IN_AFTER_SENSOR_PIN             5
 #define OUT_RED_LED_PIN                 0
 #define OUT_GREEN_LED_PIN               2
@@ -36,15 +36,15 @@
 
 /* Inputs */
 #define IN_BEFORE_SENSOR                0
-#define IN_RFID                         1
-#define IN_AFTER_SENSOR                 2
+// #define IN_RFID                         1
+#define IN_AFTER_SENSOR                 1
 
 void begin_cycle(void* p);
 
 /*
 * Functions to read and write io
 */
-void read_input(void* in);
+void read_input(void* in, void* m_states);
 void write_output(void* out);
 
 //Init function

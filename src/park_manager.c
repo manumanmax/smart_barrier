@@ -189,8 +189,8 @@ void* end_next_state(input_t* inputs, void* m_states, void* par)
 {
 	assert(inputs != NULL && m_states !=NULL);
 	state_t* stvec = (state_t*)m_states;
-    sleep(1);
-    return &stvec[STANDBY];
+        delay(1000);
+        return &stvec[STANDBY];
 }
 
 /*OUTPUT FUNCTIONS*/
@@ -226,7 +226,8 @@ void validcard_output(output_t* outputs, void* par)
     outputs[OUT_BARRIER].value = 1;
     
     green_led_on();
-	moveBarrierUp();
+    delay(50);
+    moveBarrierUp();
 }
 
 void carunderbarrier_output(output_t* outputs, void* par)
@@ -249,21 +250,32 @@ void end_output(output_t* outputs, void* par)
     outputs[OUT_BARRIER].value = 0;
     
     yellow_led_on();
-	moveBarrierDown();
+    moveBarrierDown();
 }
 
-void read_input(void* inp)
+void read_input(void* inp, void* m_states)
 {
 	if(inp)
 	{
 		input_t* in = (input_t*)inp;
-        in->value = 0;
-  	if((in->id == IN_BEFORE_SENSOR && !tracking(IN_BEFORE_SENSOR_PIN))
-  		|| (in->id == IN_RFID && strchr(stdin_buffer,'s'))
-        || (in->id == IN_AFTER_SENSOR && strchr(stdin_buffer,'d')))
-  	 	in->value = 1;
+		state_t* st = (state_t*)m_states;
+		
+		int i = rfid_cycle();
+		if(i!=-1){
+                	in->value = 0;
+                	if(((st->id==STANDBY) || (st->id==ERROR_CARD))){
+  				if((in->id == IN_BEFORE_SENSOR && !tracking(IN_BEFORE_SENSOR_PIN))
+  				    || (in->id == IN_RFID && i==1)
+        			    || (in->id == IN_AFTER_SENSOR && !tracking(IN_AFTER_SENSOR_PIN)))
+  	 					in->value = 1;
+  	 		} else {
+  	 			if((in->id == IN_BEFORE_SENSOR && !tracking(IN_BEFORE_SENSOR_PIN))
+        			    || (in->id == IN_AFTER_SENSOR && !tracking(IN_AFTER_SENSOR_PIN)))
+  	 					in->value = 1;
+  	 		}
 		printf("Input %d - %d\n", in->id, in->value);
-	}
+     		}
+     	}
 }
 
 void write_output(void* outp)
