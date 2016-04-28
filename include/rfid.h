@@ -1,5 +1,6 @@
 #ifndef RFID_H
 #define RFID_H
+#include <phidget21.h>
 
 typedef int RFID_t;
 

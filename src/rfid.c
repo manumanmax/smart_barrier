@@ -5,21 +5,13 @@
 int TagHandler(CPhidgetRFIDHandle RFID, void *usrptr, char *TagVal, CPhidgetRFID_Protocol proto)
 {
     RFID_t* t = (int*) usrptr;
-    if (strcmp(TagVal, "4b00da5a83")==0 || strcmp(TagVal,"4b00da2856")==0){
+    if (strcmp(TagVal, "4b00da5a83")==0 || strcmp(TagVal,"4b00da2856")==0)
         *t = 1;
-    }else{
+    else
         *t = 0;
-    }
-    return 0;
-} 
  
-int TagLostHandler(CPhidgetRFIDHandle RFID, void *usrptr, char *TagVal, CPhidgetRFID_Protocol proto)
-{
-    CPhidgetRFID_setLEDOn(RFID, 0);
-
     return 0;
 } 
-
  
 int rfid_cycle()
 { 
@@ -39,12 +31,12 @@ int rfid_cycle()
     	CPhidgetRFID_setAntennaOn(rfid, 1);
     	CPhidgetRFID_setLEDOn(rfid, 1);
     }
-    
-    printf("Closing rfid_cycle...\n");
+ 
     CPhidgetRFID_setLEDOn(rfid, 0);
     CPhidget_close((CPhidgetHandle)rfid);
     CPhidget_delete((CPhidgetHandle)rfid); 
- 
+    printf("Closing rfid_cycle...\n");
+
     return val;
 } 
 /* 

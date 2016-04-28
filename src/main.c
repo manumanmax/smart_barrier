@@ -3,6 +3,7 @@
 #include "init.h"
 #include <wiringPi.h>
 #include "barrier.h"
+#include "rfid.h"
 
 int main(){
 	int i;
@@ -13,12 +14,10 @@ int main(){
 
 	setupBarrier(&b);
 	
-  	for(i = 0; i < 4; i++){
-  		sleep(1);
+  	if(rfid_cycle()){
   		moveBarrier(&b);
   	}
 	
-  	sleep(1);
         stopBarrier();
   	return 0;
 }
