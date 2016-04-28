@@ -25,7 +25,12 @@ void moveBarrier(Barrier* b){
 		b->position = UP;
 		pwmWrite(PIN, RAISED);
 	}
-		
+}
+
+void stopBarrier()	
+{
+	pwmWrite(PIN,0);
+	printf("barrier stop/n");
 	
 }
 
