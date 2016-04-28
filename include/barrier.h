@@ -4,7 +4,7 @@
 #define UP 1
 #define DOWN 0
 #define RAISED 96 
-#define SET 55
+#define SET 50
 #define PIN 1
 
 typedef struct Barrier{
