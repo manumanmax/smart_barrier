@@ -1,5 +1,5 @@
 CC=gcc
-CLFLAGS=-Iinclude -W -Wall -ansi -pedantic
+CLFLAGS=-Iinclude -W -Wall -pedantic
 LDFLAGS=-lwiringPi -lphidget21
 EXEC=main
 

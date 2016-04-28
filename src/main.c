@@ -7,7 +7,7 @@
 int main(){
 	int i;
 	Barrier b;
-	//init 
+	 
 	if(wiringPiSetup() == -1)
 		exit(1);
 
@@ -19,6 +19,6 @@ int main(){
   	}
 	
   	sleep(1);
-  	stopBarrier();
-	return 0;
+        stopBarrier();
+  	return 0;
 }
