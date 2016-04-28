@@ -7,14 +7,17 @@
 int main(){
 	int i;
 	Barrier b;
+	//init 
 	if(wiringPiSetup() == -1)
 		exit(1);
 
 	setupBarrier(&b);
+	
   	for(i = 0; i < 4; i++){
   		sleep(1);
   		moveBarrier(&b);
   	}
+	
   	sleep(1);
   	stopBarrier();
 	return 0;
