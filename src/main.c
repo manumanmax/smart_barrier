@@ -4,13 +4,6 @@
 #include <wiringPi.h>
 #include "barrier.h"
 
-
-void stopBarrier()	
-{
-	pwmWrite(PIN,0);
-	printf("barrier stop/n");
-	
-}
 int main(){
 	int i;
 	Barrier b;
