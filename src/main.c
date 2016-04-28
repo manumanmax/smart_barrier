@@ -1,27 +1,17 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "init.h"
 #include <time.h>
-#include <wiringPi.h>
-#include "barrier.h"
-
-void stopBarrier(){
-	pwmWrite(PIN,0);
-	printf("Barrier stopped !\n");
-}
+#include <stdio.h>
 
 int main(){
-	Barrier b;
-	int i; 
-	if(wiringPiSetup() == -1)
-		exit(1);
-
-	setupBarrier(&b);
-	for(i = 0; i < 3; i++){
-		sleep(1);
-		moveBarrier(&b);
+	init_setup();
+	int i,x;
+	for(;;){
+		if((tracking(TRACK_SENS1))){
+			red_led_on();
+		}
+		else {
+			green_led_on();
+                }
 	}
-	sleep(1);
-	stopBarrier();
-	
 	return 0;
 }
