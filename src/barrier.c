@@ -7,7 +7,7 @@
 void setupBarrier(){
 	pinMode(1, PWM_OUTPUT); /* corresponds to pin 12 */ 
 	pwmSetMode(PWM_MODE_MS);
-	pwmSetClock(19200000);   
+	pwmSetClock(1920);   
 	pwmSetRange(200); /* adaptation of the clock frequency to the motor frequency */
 	//pwmWrite(PIN, SET);
 	
