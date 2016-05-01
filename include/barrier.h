@@ -3,8 +3,8 @@
 
 #define UP 1
 #define DOWN 0
-#define RAISED 96 
-#define SET 50
+#define RAISED 15 
+#define SET 25
 #define PIN 1
 
 void stopBarrier();
